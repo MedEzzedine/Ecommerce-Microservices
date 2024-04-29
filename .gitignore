@@ -1,5 +1,6 @@
 # Env file to hide secrets (rename and use .sample-env instead)
 .env
+.idea
 
 
 # Compiled class file
