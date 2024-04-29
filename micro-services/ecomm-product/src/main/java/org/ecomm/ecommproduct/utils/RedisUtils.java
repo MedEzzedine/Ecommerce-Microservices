@@ -33,10 +33,30 @@ public class RedisUtils {
   @Autowired RedisTemplate<String, String> redisTemplate;
 
   public void initializeRedis() {
+    // var inventories = inventoryRepository.findAll();
+    // for(var inventory:inventories) {
+    //   log.info("inventor::: {}", inventory);
+    // }
+
+    // List<RInventory> rInventories =
+    //     Utility.stream(inventories)
+    //         .map(
+    //             eInventory ->
+    //                 RInventory.builder()
+    //                     .inventory(
+    //                         Inventory.builder()
+    //                             .quantityAvailable(eInventory.getQuantityAvailable())
+    //                             .sku(eInventory.getSku())
+    //                             .id(eInventory.getId())
+    //                             .variantId(eInventory.getVariant() != null ? eInventory.getVariant().getId() : 1)
+    //                             .quantitySold(eInventory.getQuantitySold())
+    //                             .build())
+    //                     .variantId(eInventory.getVariant() != null ? eInventory.getVariant().getId() : 1)
+    //                     .build())
+    //         .toList();
+
+
     var inventories = inventoryRepository.findAll();
-    for(var inventory:inventories) {
-      log.info("inventor::: {}", inventory);
-    }
 
     List<RInventory> rInventories =
         Utility.stream(inventories)
@@ -48,20 +68,20 @@ public class RedisUtils {
                                 .quantityAvailable(eInventory.getQuantityAvailable())
                                 .sku(eInventory.getSku())
                                 .id(eInventory.getId())
-                                .variantId(eInventory.getVariant() != null ? eInventory.getVariant().getId() : 1)
+                                .variantId(eInventory.getVariant().getId())
                                 .quantitySold(eInventory.getQuantitySold())
                                 .build())
-                        .variantId(eInventory.getVariant() != null ? eInventory.getVariant().getId() : 1)
+                        .variantId(eInventory.getVariant().getId())
                         .build())
             .toList();
-
+      
     try {
       inventoryRedisRepository.deleteAll();
       inventoryRedisRepository.saveAll(rInventories);
-    } catch (Exception e) {
+     } catch (Exception e) {
 
-      log.info("Unable to connect to Redis ::: {}", e.getMessage());
-    }
+       log.info("Unable to connect to Redis ::: {}", e.getMessage());
+     }
   }
 
   public void addChangeToQueue(RInventory rInventory) {

@@ -27,7 +27,7 @@ services:
 
   user:
     build:
-      context: ./micro-services/ecomm-web
+      context: ./micro-services/ecomm-user
       dockerfile: Dockerfile.local
     ports:
       - "8080:8080"
@@ -55,8 +55,8 @@ services:
       - "8081:8081"
     env_file:
       - .env
-    links:
-      - redis
+    networks:
+      - cache-net
     depends_on:
       - db
       - redis
@@ -100,9 +100,9 @@ services:
     restart: unless-stopped
     ports:
       - "6379:6379"
-    command: redis-server --save 20 1 --loglevel verbose --protected-mode no #--requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-    volumes:
-      - redis-cache:/data
+    command: redis-server --save 20 1 --loglevel verbose --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    networks:
+      - cache-net
 
   # logstash:
   #    image: logstash:8.11.1
@@ -144,4 +144,3 @@ volumes:
     driver: local
   postgres-ecomm-data:
   logstash-conf:
-  redis-cache:
