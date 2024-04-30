@@ -11,6 +11,7 @@ pipeline {
             when {
                 changeRequest target: 'test'
                 branch pattern: "feature/[a-zA-Z_0-9]+", comparator: "REGEXP"
+                beforeAgent true
             }
 
             stages {
@@ -20,6 +21,7 @@ pipeline {
                             git changelog: false, poll: false, url: 'https://github.com/MedEzzedine/Ecommerce-Microservices'
                         }
                     }
+                    
                 stage('Compile') {
                     steps {
                         echo "Compile"
