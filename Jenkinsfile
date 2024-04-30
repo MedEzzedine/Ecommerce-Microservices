@@ -6,6 +6,8 @@ pipeline {
 //     jdk 'Java17'
 // }
 
+    options { skipDefaultCheckout() }
+
     stages {
         stage('Feature PR to test') {
             when {
