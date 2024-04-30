@@ -110,3 +110,5 @@ ws://localhost:8091/ws/events
 | ---------- | ------------- |
 | Api docs   | `/api/docs`   |
 | Swagger UI | `/swagger-ui` |
+
+Hello
