@@ -11,6 +11,7 @@ pipeline {
             when {
                 changeRequest target: 'test'
                 branch pattern: "feature/[a-zA-Z_0-9]+", comparator: "REGEXP"
+                beforeAgent true
             }
 
             stages {
