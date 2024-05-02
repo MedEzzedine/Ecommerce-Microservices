@@ -15,39 +15,29 @@ pipeline {
     stages {
 
          ///////////////////////Main branch pipeline///////////////////////////////
-
-        stage('Main branch pipeline') {
-
-        when {
-            branch 'main'
-            beforeAgent true
-        }
-        stages {
-
+        if(env.BRANCH_NAME == 'main') {
+                    stage('Main branch pipeline') {
             stage('Git checkout') {
-                    steps {
-                        checkout changelog: false, poll: false, scm: scmGit(branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/MedEzzedine/Ecommerce-Microservices']])
-                    }
+                steps {
+                    checkout changelog: false, poll: false, scm: scmGit(branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/MedEzzedine/Ecommerce-Microservices']])
                 }
+            }
             stage('Compile') {
                 steps {
                     echo "Hello from main"
                 }
             }
-            
-    }
+      
+        }
+
+        }
+
     }
 
     ///////////////////////Test branch pipeline///////////////////////////////
 
-        stage('Test branch pipeline') {
+        if(env.BRANCH_NAME == 'test') {
 
-            when {
-                branch 'test'
-                beforeAgent true
-            }
-
-            stages {
                 stage('Git checkout') {
                     steps {
                         checkout changelog: false, poll: false, scm: scmGit(branches: [[name: 'test']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/MedEzzedine/Ecommerce-Microservices']])
@@ -83,13 +73,12 @@ pipeline {
                     }
                 }
             }
-        }
-
+    
 
     ///////////////////////PR pipeline///////////////////////////////
 
-
-        stage('Feature PR to test') {
+        if (env.BRANCH_NAME.startsWith('feature')) {
+            stage('Feature PR to test') {
             when {
                 changeRequest target: 'test'
                 branch pattern: "feature/[a-zA-Z_0-9]+", comparator: "REGEXP"
@@ -133,5 +122,5 @@ pipeline {
         }
 
     }
-
 }
+        
