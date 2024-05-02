@@ -87,7 +87,7 @@ ws://localhost:8091/ws/events
 
 ## ER Diagram
 
-<img  width="1676"  alt="Pasted Graphic"  src="https://github.com/amol9372/ecommerce-spring-boot-backend-apis/assets/20081129/94d43c0d-2d2e-40be-a44d-dec762b3ffb2">
+<img  width="1676"  alt="Pasted Graphic" src="https://github.com/amol9372/ecommerce-spring-boot-backend-apis/assets/20081129/94d43c0d-2d2e-40be-a44d-dec762b3ffb2">
 
 ## API Root Endpoint
 
