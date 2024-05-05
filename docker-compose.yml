@@ -53,6 +53,8 @@ services:
       dockerfile: Dockerfile.local
     ports:
       - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
     env_file:
       - .env
     networks:
@@ -100,7 +102,7 @@ services:
     restart: unless-stopped
     ports:
       - "6379:6379"
-    command: redis-server --save 20 1 --loglevel verbose --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --protected-mode no --loglevel verbose --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81 #--save 20 1
     networks:
       - cache-net
 
