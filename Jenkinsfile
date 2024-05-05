@@ -24,12 +24,12 @@ pipeline {
         }
         stages {
 
-            stage('Git checkout') {
+            stage('Git from source checkout') {
                     steps {
                         checkout changelog: false, poll: false, scm: scmGit(branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/MedEzzedine/Ecommerce-Microservices']])
                     }
                 }
-            stage('Compile') {
+            stage('Compilation') {
                 steps {
                     echo "Hello from main"
                 }
