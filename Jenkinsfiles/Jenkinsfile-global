@@ -1,0 +1,112 @@
+pipeline {
+    agent any
+
+
+    options {
+        skipDefaultCheckout()
+    }
+
+    stages {
+
+         ///////////////////////Main branch pipeline///////////////////////////////
+
+        stage('Main branch pipeline') {
+
+        when {
+            branch 'main'
+            beforeAgent true
+        }
+        stages {
+
+            stage('Git checkout') {
+                    steps {
+                        checkout changelog: false, poll: false, scm: scmGit(branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/MedEzzedine/Ecommerce-Microservices']])
+                    }
+                }
+            stage('Load main branch Jenkinsfile') {
+                steps {
+                    load 'Jenkinsfiles/Jenkinsfile-main'
+                }
+            }
+        }
+    }
+
+    ///////////////////////Test branch pipeline///////////////////////////////
+
+        stage('Test branch pipeline') {
+
+        when {
+            branch 'test'
+            beforeAgent true
+        }
+        stages {
+
+            stage('Git checkout') {
+                    steps {
+                        checkout changelog: false, poll: false, scm: scmGit(branches: [[name: 'test']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/MedEzzedine/Ecommerce-Microservices']])
+                    }
+                }
+            stage('Load test branch Jenkinsfile') {
+                steps {
+                    load 'Jenkinsfiles/Jenkinsfile-test'
+                }
+            }
+        }
+    }
+
+
+    ///////////////////////FEATURE PR pipeline///////////////////////////////
+
+        stage('Feature PR to dev') {
+            when {
+                changeRequest target: 'dev/[a-zA-Z_0-9]+', comparator: "REGEXP"
+                branch pattern: "feature/[a-zA-Z_0-9]+", comparator: "REGEXP"
+                beforeAgent true
+            }
+
+            stages {
+
+                stage('Git checkout') {
+                    steps {
+                        echo "Source branch: ${env.BRANCH_NAME} / Target branch: ${env.CHANGE_TARGET}"
+                        checkout changelog: false, poll: false, scm: scmGit(branches: [[name: env.BRANCH_NAME]], extensions: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/MedEzzedine/Ecommerce-Microservices']])
+                    }
+                }
+                
+                stage('Load test branch Jenkinsfile') {
+                    steps {
+                        load 'Jenkinsfiles/Jenkinsfile-feature-back'
+                    }
+                }
+            }
+        }
+
+
+            ///////////////////////DEV PR pipeline///////////////////////////////
+
+        stage('Dev PR to Test') {
+            when {
+                changeRequest target: 'test'
+                branch pattern: "dev/[a-zA-Z_0-9]+", comparator: "REGEXP"
+                beforeAgent true
+            }
+
+            stages {
+
+                stage('Git checkout') {
+                    steps {
+                        echo "Source branch: ${env.BRANCH_NAME} / Target branch: ${env.CHANGE_TARGET}"
+                        checkout changelog: false, poll: false, scm: scmGit(branches: [[name: env.BRANCH_NAME]], extensions: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/MedEzzedine/Ecommerce-Microservices']])
+                    }
+                }
+                
+                stage('Load test branch Jenkinsfile') {
+                    steps {
+                        load 'Jenkinsfiles/Jenkinsfile-dev-back'
+                    }
+                }
+            }
+        }
+
+    }
+}
