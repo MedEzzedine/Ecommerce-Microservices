@@ -6,7 +6,6 @@ pipeline {
 //     jdk 'Java17'
 // }
 
-
     stages {
         stage('ls') {
             steps {
