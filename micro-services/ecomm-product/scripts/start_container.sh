@@ -1,6 +1,7 @@
 #!/bin/bash
 
-echo "Killing all active user-service containers"
+#End all active containers
+echo "Killing all active user-service containers!"
 
 containers=$(docker ps | grep "ecomm-product" | awk '{print$1}')
 if [ -n "$containers" ]
