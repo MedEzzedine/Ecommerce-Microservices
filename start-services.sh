@@ -12,7 +12,6 @@ docker-compose down
 echo "Building Docker Compose services..."
 docker-compose build
 
-
 # Start Docker Compose services
 echo "Starting Docker Compose services..."
 docker-compose up -d
