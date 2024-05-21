@@ -14,7 +14,7 @@ data:
   POSTGRES_USER: postgres
   HOST_URL: host.docker.internal
   STRIPE_API_KEY: pk_test_randomstuffwith123
-  REDIS_PORT: 6379
+  REDIS_PORT: '6379'
   REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
   #CONFIG_SERVER_HOST: host.docker.internal
   #CONFIG_SERVER_PORT: 8900
