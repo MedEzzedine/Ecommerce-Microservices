@@ -16,6 +16,7 @@ spec:
       containers:
       - name: cart
         image: medez/ecomm-cart:latest
+        imagePullPolicy: Always
         env:
           - name: POSTGRES_URL
             valueFrom:

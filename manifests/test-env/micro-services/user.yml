@@ -16,6 +16,7 @@ spec:
       containers:
       - name: user
         image: medez/ecomm-user:latest
+        imagePullPolicy: Always
         env:
           - name: POSTGRES_URL
             valueFrom:

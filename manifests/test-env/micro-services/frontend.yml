@@ -16,6 +16,7 @@ spec:
       containers:
       - name: frontend
         image: medez/ecomm-frontend:latest
+        imagePullPolicy: Always
 
 ---
 apiVersion: v1
