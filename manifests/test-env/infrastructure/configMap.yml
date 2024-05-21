@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: global-configuration
+  namespace: test
+data:
+  AUTH0_ISSUER: https://dev-wll37qahm5vdnmme.us.auth0.com/
+  AUTH0_USERINFO_URL: https://dev-wll37qahm5vdnmme.us.auth0.com/userinfo
+  ELASTICSEARCH_PASSWORD: DkIedPPSCb
+  ELASTICSEARCH_URL: elasticsearch:9200
+  POSTGRES_DB: ecomm
+  POSTGRES_PASSWORD: avizva9372
+  POSTGRES_URL: postgres
+  POSTGRES_USER: postgres
+  HOST_URL: host.docker.internal
+  STRIPE_API_KEY: pk_test_randomstuffwith123
+  REDIS_PORT: 6379
+  REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+  #CONFIG_SERVER_HOST: host.docker.internal
+  #CONFIG_SERVER_PORT: 8900
