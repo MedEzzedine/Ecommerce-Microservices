@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 //@FeignClient(name = "user-service", url = "http://localhost:8080/api")
-@FeignClient(name = "user-service", url = "http://${host.url}:8080/api")
+@FeignClient(name = "user-service", url = "http://${host.user-service.url}:${host.user-service.port}/api")
 public interface UserServiceClient {
 
   @GetMapping(value = "user")

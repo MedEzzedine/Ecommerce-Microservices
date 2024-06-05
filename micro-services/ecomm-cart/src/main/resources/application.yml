@@ -13,7 +13,12 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 host:
-  url: ${HOST_URL}
+  user-service:
+    url: ${USER_SERVICE_URL}
+    port: ${USER_SERVICE_PORT}
+  product-service:
+    url: ${PRODUCT_SERVICE_URL}
+    port: ${PRODUCT_SERVICE_PORT}
 #  cloud:
 #    openfeign:
 #      client:

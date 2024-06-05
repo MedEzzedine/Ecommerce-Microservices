@@ -1,7 +1,7 @@
 # Env file to hide secrets (rename and use .sample-env instead)
 .env
 .idea
-
+frontend2
 
 # Compiled class file
 *.class

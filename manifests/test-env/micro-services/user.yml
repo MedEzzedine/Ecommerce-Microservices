@@ -14,31 +14,30 @@ spec:
         app: user
     spec:
       containers:
-      - name: user
-        image: medez/ecomm-user:latest
-        imagePullPolicy: Always
-        env:
-          - name: POSTGRES_URL
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_URL
-          - name: POSTGRES_DB
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_DB
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_PASSWORD
-          - name: POSTGRES_USER
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_USER
-        
+        - name: user
+          image: medez/ecomm-user:latest
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_URL
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_DB
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_USER
 
 ---
 apiVersion: v1
@@ -51,5 +50,5 @@ spec:
     app: user
   type: ClusterIP
   ports:
-  - port: 8080
-    targetPort: 8080
+    - port: 8080
+      targetPort: 8080

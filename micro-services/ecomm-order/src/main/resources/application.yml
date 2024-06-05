@@ -17,7 +17,12 @@ logging:
     root: info
 
 host:
-  url: ${HOST_URL}
+  user-service:
+    url: ${USER_SERVICE_URL}
+    port: ${USER_SERVICE_PORT}
+  cart-service:
+    url: ${CART_SERVICE_URL}
+    port: ${CART_SERVICE_PORT}
 
 stripe:
   api-key: ${STRIPE_API_KEY}

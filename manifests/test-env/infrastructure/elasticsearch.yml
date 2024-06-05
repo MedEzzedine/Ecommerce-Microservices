@@ -14,46 +14,53 @@ spec:
         app: elasticsearch
     spec:
       containers:
-      - name: elasticsearch
-        image: elasticsearch:8.11.1
-        env:
-          - name: POSTGRES_URL
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_URL
-          - name: POSTGRES_DB
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_DB
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_PASSWORD
-          - name: POSTGRES_USER
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_USER
-          - name: ELASTIC_USERNAME
-            value: elastic
-          - name: ELASTIC_PASSWORD
-            value: DkIedPPSCb
-          - name: ES_JAVA_OPTS
-            value: -Xms512m -Xmx512m
-          - name: CLI_JAVA_OPTS
-            value: -Xms2g -Xmx2g
-          - name: bootstrap.memory_lock
-            value: 'true'
-          - name: discovery.type
-            value: single-node
-          - name: xpack.security.enabled
-            value: 'true'
-          - name: xpack.security.enrollment.enabled
-            value: 'false'
-        
+        - name: elasticsearch
+          image: elasticsearch:8.11.1
+          env:
+            - name: POSTGRES_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_URL
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_DB
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_USER
+            - name: ELASTIC_USERNAME
+              value: elastic
+            - name: ELASTIC_PASSWORD
+              value: DkIedPPSCb
+            - name: ES_JAVA_OPTS
+              value: -Xms512m -Xmx512m
+            - name: CLI_JAVA_OPTS
+              value: -Xms2g -Xmx2g
+            - name: bootstrap.memory_lock
+              value: "true"
+            - name: discovery.type
+              value: single-node
+            - name: xpack.security.enabled
+              value: "true"
+            - name: xpack.security.enrollment.enabled
+              value: "false"
+          volumeMounts:
+            - name: elasticsearch-pv-volume
+              mountPath: /usr/share/elasticsearch/data
+      volumes:
+        - name: elasticsearch-pv-volume
+          persistentVolumeClaim:
+            claimName: elasticsearch-pv-claim
+
 ---
 apiVersion: v1
 kind: Service
@@ -65,5 +72,5 @@ spec:
     app: elasticsearch
   type: ClusterIP
   ports:
-  - port: 9200
-    targetPort: 9200
+    - port: 9200
+      targetPort: 9200

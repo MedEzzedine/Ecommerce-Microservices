@@ -14,31 +14,50 @@ spec:
         app: cart
     spec:
       containers:
-      - name: cart
-        image: medez/ecomm-cart:latest
-        imagePullPolicy: Always
-        env:
-          - name: POSTGRES_URL
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_URL
-          - name: POSTGRES_DB
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_DB
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_PASSWORD
-          - name: POSTGRES_USER
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_USER
-        
+        - name: cart
+          image: medez/ecomm-cart:latest
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_URL
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_DB
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_USER
+            - name: USER_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: USER_SERVICE_URL
+            - name: USER_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: USER_SERVICE_PORT
+            - name: PRODUCT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: PRODUCT_SERVICE_URL
+            - name: PRODUCT_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: PRODUCT_SERVICE_PORT
 
 ---
 apiVersion: v1
@@ -51,5 +70,5 @@ spec:
     app: cart
   type: ClusterIP
   ports:
-  - port: 8082
-    targetPort: 8082
+    - port: 8082
+      targetPort: 8082

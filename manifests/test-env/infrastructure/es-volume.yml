@@ -1,11 +1,11 @@
-kind: PersistentVolume 
+kind: PersistentVolume
 apiVersion: v1
 metadata:
   namespace: test
-  name: postgres-pv-volume
+  name: elasticsearch-pv-volume
   labels:
     type: local
-    app: postgres
+    app: elasticsearch
 spec:
   storageClassName: manual
   capacity:
@@ -13,16 +13,15 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/mtd/data"
-
+    path: "/mtd/data/elasticsearch"
 
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: postgres-pv-claim
+  name: elasticsearch-pv-claim
   labels:
-    app: postgres
+    app: elasticsearch
 spec:
   storageClassName: manual
   accessModes:

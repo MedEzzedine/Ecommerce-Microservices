@@ -14,36 +14,55 @@ spec:
         app: order
     spec:
       containers:
-      - name: order
-        image: medez/ecomm-order:latest
-        imagePullPolicy: Always
-        env:
-          - name: POSTGRES_URL
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_URL
-          - name: POSTGRES_DB
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_DB
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_PASSWORD
-          - name: POSTGRES_USER
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: POSTGRES_USER
-          - name: STRIPE_API_KEY
-            valueFrom:
-              configMapKeyRef:
-                name: global-configuration
-                key: STRIPE_API_KEY
-        
+        - name: order
+          image: medez/ecomm-order:latest
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_URL
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_DB
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: POSTGRES_USER
+            - name: STRIPE_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: STRIPE_API_KEY
+            - name: USER_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: USER_SERVICE_URL
+            - name: USER_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: USER_SERVICE_PORT
+            - name: CART_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: CART_SERVICE_URL
+            - name: CART_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configuration
+                  key: CART_SERVICE_PORT
 
 ---
 apiVersion: v1
@@ -56,5 +75,5 @@ spec:
     app: order
   type: ClusterIP
   ports:
-  - port: 8083
-    targetPort: 8083
+    - port: 8083
+      targetPort: 8083
