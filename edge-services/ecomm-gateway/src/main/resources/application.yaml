@@ -6,7 +6,51 @@ management:
     gateway:
       enabled: true
 
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: debug
+    root: info
+
 spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_URL}:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:migrations
+    fail-on-missing-locations: true
+    baseline-on-migrate: true
+    create-schemas: false
+
+auth0:
+  userinfo:
+    url: ${AUTH0_USERINFO_URL}
+  issuer: ${AUTH0_ISSUER}
+
+jwt:
+  secret-key: 436d58303377335967726d3537344a74747877314e7a4337684b6f6e72707149
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+    enabled: true
+  api-docs:
+    enabled: true
+    path: /api-docs
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
   cloud:
     gateway:
       routes:
@@ -35,34 +79,35 @@ spring:
           filters:
             - PrefixPath=/api
 
-  datasource:
-    url: jdbc:postgresql://${POSTGRES_URL}:5432/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-
-logging:
-  level:
-    org:
-      springframework:
-        cloud:
-          gateway: debug
-    root: info
-
-auth0:
-  userinfo:
-    url: ${AUTH0_USERINFO_URL}
-  issuer: ${AUTH0_ISSUER}
-
-jwt:
-  secret-key: 436d58303377335967726d3537344a74747877314e7a4337684b6f6e72707149
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui
-    enabled: true
-  api-docs:
-    enabled: true
-    path: /api-docs
+---
+spring:
+  config:
+    activate:
+      on-profile: kubernetes
+  cloud:
+    gateway:
+      routes:
+        - id: ecomm-user
+          uri: http://user:8080/
+          predicates:
+            - Path=/user/**, /address/**, /user/*/**, /admin/user/**
+          filters:
+            - PrefixPath=/api
+        - id: ecomm-product
+          uri: http://product:8081/
+          predicates:
+            - Path=/product/**, /category/**, /admin/**, /inventory/**, /brand/**
+          filters:
+            - PrefixPath=/api
+        - id: ecomm-cart
+          uri: http://cart:8082/
+          predicates:
+            - Path=/cart/**
+          filters:
+            - PrefixPath=/api
+        - id: ecomm-order
+          uri: http://order:8083/
+          predicates:
+            - Path=/order/**, /stripe/**
+          filters:
+            - PrefixPath=/api

@@ -11,14 +11,10 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
 
-host:
-  user-service:
-    url: ${USER_SERVICE_URL}
-    port: ${USER_SERVICE_PORT}
-  product-service:
-    url: ${PRODUCT_SERVICE_URL}
-    port: ${PRODUCT_SERVICE_PORT}
 #  cloud:
 #    openfeign:
 #      client:
@@ -59,3 +55,29 @@ springdoc:
   api-docs:
     enabled: true
     path: /api-docs
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+host:
+  user-service:
+    url: ${USER_SERVICE_URL}
+    port: ${USER_SERVICE_PORT}
+  product-service:
+    url: ${PRODUCT_SERVICE_URL}
+    port: ${PRODUCT_SERVICE_PORT}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: kubernetes
+host:
+  user-service:
+    url: user
+    port: 8080
+  product-service:
+    url: product
+    port: 8081

@@ -1,22 +1,37 @@
 version: "3.8"
 
 services:
+#  db:
+#    build:
+#      context: ./infrastructure/ecomm-db
+#      dockerfile: Dockerfile
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres-ecomm-data:/var/lib/postgresql/data
+#      - ./infrastructure/ecomm-db/ecomm.sql:/docker-entrypoint-initdb.d/ecomm.sql
+#    env_file:
+#      - .env
+#    restart: unless-stopped
+
   db:
-    build:
-      context: ./infrastructure/ecomm-db
-      dockerfile: Dockerfile
+    image: postgres:14.12-alpine3.20
     ports:
       - "5432:5432"
     volumes:
       - postgres-ecomm-data:/var/lib/postgresql/data
-      - ./infrastructure/ecomm-db/ecomm.sql:/docker-entrypoint-initdb.d/ecomm.sql
     env_file:
       - .env
     restart: unless-stopped
 
+
   gateway:
     depends_on:
       - db
+      - user
+      - order
+      - product
+      - cart
     build:
       context: ./edge-services/ecomm-gateway
       dockerfile: Dockerfile.local
@@ -24,6 +39,8 @@ services:
       - "8091:8091"
     env_file:
       - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
 
   user:
     build:
@@ -33,8 +50,11 @@ services:
       - "8080:8080"
     env_file:
       - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
     depends_on:
       - db
+
 
   cart:
     build:
@@ -44,6 +64,8 @@ services:
       - "8082:8082"
     env_file:
       - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
     depends_on:
       - db
 
@@ -71,6 +93,8 @@ services:
       - "8083:8083"
     env_file:
       - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
     depends_on:
       - db
 
@@ -102,7 +126,7 @@ services:
     restart: unless-stopped
     ports:
       - "6379:6379"
-    command: redis-server --protected-mode no --loglevel verbose --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81 #--save 20 1
+    command: redis-server --loglevel verbose --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81 #--save 20 1
     networks:
       - cache-net
 
@@ -131,9 +155,6 @@ services:
       dockerfile: Dockerfile.local
     ports:
       - "8888:80"
-    depends_on:
-      - gateway
-      - product
 
 networks:
   elk:

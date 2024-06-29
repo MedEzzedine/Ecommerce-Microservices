@@ -11,18 +11,13 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
 
 logging:
   level:
     root: info
-
-host:
-  user-service:
-    url: ${USER_SERVICE_URL}
-    port: ${USER_SERVICE_PORT}
-  cart-service:
-    url: ${CART_SERVICE_URL}
-    port: ${CART_SERVICE_PORT}
 
 stripe:
   api-key: ${STRIPE_API_KEY}
@@ -34,3 +29,30 @@ springdoc:
   api-docs:
     enabled: true
     path: /api-docs
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+host:
+  user-service:
+    url: ${USER_SERVICE_URL}
+    port: ${USER_SERVICE_PORT}
+  cart-service:
+    url: ${CART_SERVICE_URL}
+    port: ${CART_SERVICE_PORT}
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: kubernetes
+host:
+  user-service:
+    url: user
+    port: 8080
+  cart-service:
+    url: cart
+    port: 8082

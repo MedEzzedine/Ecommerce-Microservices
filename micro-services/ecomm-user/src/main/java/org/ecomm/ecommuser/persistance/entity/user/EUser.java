@@ -28,6 +28,11 @@ public class EUser extends BaseEntity {
 
   String mobile;
 
+  //Addition of password & subject
+  String passwd;
+
+  String subject;
+
   @Column(name = "created_at")
   LocalDateTime createdAt;
 

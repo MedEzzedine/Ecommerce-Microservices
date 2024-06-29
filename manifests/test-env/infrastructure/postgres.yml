@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: medez/ecomm-db:latest
-          imagePullPolicy: Always
+          image: postgres:14.12-alpine3.20
           ports:
             - containerPort: 5432
           env:
