@@ -1,4 +1,3 @@
-NS="test"
 
 kubectl apply -f manifests/test-env/infrastructure/namespace.yml
 kubectl apply -f manifests/test-env/infrastructure/configMap.yml
@@ -15,4 +14,7 @@ kubectl apply -f manifests/test-env/micro-services/order.yml
 kubectl apply -f manifests/test-env/micro-services/user.yml
 kubectl apply -f manifests/test-env/micro-services/product.yml
 kubectl apply -f manifests/test-env/micro-services/frontend.yml
+
+sleep 70
+
 kubectl apply -f manifests/test-env/infrastructure/gateway.yml
